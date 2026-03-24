@@ -1,0 +1,4 @@
+.gitignore
+.idea/Demo/best_model/model.safetensors
+Demo/best_model/
+*.safetensors
