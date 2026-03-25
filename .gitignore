@@ -1,4 +1,33 @@
-.gitignore
-.idea/Demo/best_model/model.safetensors
-Demo/best_model/
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated outputs
+results/
+outputs/
+logs/
+checkpoints/
+
+# Model weights / training artifacts
 *.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Demo local model folder
+demo/best_model/
+Demo/best_model/
