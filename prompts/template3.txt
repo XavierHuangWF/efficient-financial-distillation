@@ -1,0 +1,6 @@
+f"""
+Below are examples of {label} financial news:
+{seed_block}
+
+Generate 5 more realistic financial news sentences with the same sentiment ({label}).
+"""

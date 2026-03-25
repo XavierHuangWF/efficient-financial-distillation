@@ -1,0 +1,9 @@
+f"""
+The following sentence has a financial sentiment label of {label}:
+{seed_sentence}
+
+Generate 3 alternative sentences that:
+- Express the same sentiment ({label})
+- Remain realistic within the finance/news domain
+- Use different wording or phrasing
+"""

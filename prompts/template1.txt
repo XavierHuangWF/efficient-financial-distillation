@@ -1,0 +1,13 @@
+f"""
+You are training a sentiment classification assistant for financial news.
+Given this instruction and a few labeled examples, write a new financial news sentence with the same sentiment:
+
+Instruction: Classify the sentiment of this financial news sentence.
+Examples:
+1. {examples['Negative']} → Negative
+2. {examples['Neutral']} → Neutral
+3. {examples['Positive']} → Positive
+
+Now generate a new financial news sentence that expresses the following sentiment:
+→ {target_label}
+"""
