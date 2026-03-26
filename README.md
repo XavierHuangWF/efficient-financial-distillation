@@ -16,6 +16,12 @@ The project studies whether carefully selected seed examples and LLM-generated s
 
 ---
 
+## Broader research relevance
+
+Although the experiments in this repository focus on financial sentiment analysis, the underlying methodology is intended for broader low-resource and privacy-constrained AI settings. In particular, the framework for clustering-based seed selection, synthetic data generation, and compact model distillation is relevant to domains where labeled data are limited, deployment efficiency matters, and reliable decision support is important, including healthcare monitoring and critical infrastructure applications.
+
+---
+
 ## How to run
 
 Below are example commands for the main pipeline stages.
@@ -160,6 +166,14 @@ efficient-financial-distillation/
 
 ---
 
+## Notes
+
+This repository is being cleaned and refactored from experiment-specific research scripts into a more reproducible pipeline structure. Some legacy scripts may still exist temporarily during this process.
+
+If a command in this README does not exactly match your current filenames yet, keep the structure shown here as the target organization and rename your scripts gradually during cleanup.
+
+---
+
 ## Citation
 
 If you use this repository, please cite the associated paper.
@@ -172,3 +186,9 @@ If you use this repository, please cite the associated paper.
   year={2026}
 }
 ```
+
+---
+
+## License
+
+This project is released under the MIT License.
