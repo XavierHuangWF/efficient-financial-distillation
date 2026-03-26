@@ -33,29 +33,57 @@ python scripts/generation/generate_synthetic.py --dataset phrasebank
 python scripts/generation/generate_synthetic.py --dataset twitter
 ```
 
-### 2. Seed selection
+### 2. GPT-4o evaluation
 
 ```bash
-python scripts/seed_selection/select_seeds.py --dataset phrasebank --method clustered
-python scripts/seed_selection/select_seeds.py --dataset phrasebank --method random
-python scripts/seed_selection/select_seeds.py --dataset twitter --method clustered
-python scripts/seed_selection/select_seeds.py --dataset twitter --method random
+python scripts/generation/chatgpt4o_eval.py --dataset phrasebank
+python scripts/generation/chatgpt4o_eval.py --dataset twitter
 ```
 
-### 3. Student model training
+### 3. Seed selection
 
 ```bash
-python scripts/training/train.py --model distilbert --dataset phrasebank --data-mode real
-python scripts/training/train.py --model tinybert --dataset phrasebank --data-mode synthetic
-python scripts/training/train.py --model modernbert --dataset twitter --data-mode synthetic
+python scripts/seed_selection/SaveSeed_financial_phrasebank.py
+python scripts/seed_selection/SaveRandomSeed_financial_phrasebank.py
+python scripts/seed_selection/SaveSeed_twitter-financial-news.py
+python scripts/seed_selection/SaveRandomSeed_twitter-financial-news.py
 ```
 
-### 4. Evaluation
+### 4. Seed distance visualization
 
 ```bash
-python scripts/evaluation/evaluate.py --dataset phrasebank --model distilbert
-python scripts/evaluation/plot_results.py
-python scripts/evaluation/stat_tests.py
+python scripts/seed_selection/visualize_seed_distances.py
+python scripts/seed_selection/visualize_Randomseed_distances.py
+```
+
+### 5. Student model training
+
+Examples:
+
+```bash
+python scripts/training/DistilBERT_financial_phrasebank.py
+python scripts/training/TinyBERT_financial_phrasebank.py
+python scripts/training/ModernBERT_financial_phrasebank.py
+
+python scripts/training/DistilBERT_twitter-financial-news.py
+python scripts/training/TinyBERT_twitter-financial-news.py
+python scripts/training/ModernBERT_twitter-financial-news.py
+```
+
+Synthetic-data variants are also included in `scripts/training/`.
+
+### 6. Evaluation and comparison
+
+Examples:
+
+```bash
+python scripts/evaluation/FinBert_test.py
+python scripts/evaluation/test_phrasebank_plot.py
+python scripts/evaluation/test_twitter_plot.py
+python scripts/evaluation/test_phrasebank_modernBERT.py
+python scripts/evaluation/test_twitterNews_modernBERT.py
+python scripts/evaluation/Plot_comparison.py
+python scripts/evaluation/mcnemar_twitter.py
 ```
 
 ---
@@ -68,7 +96,7 @@ Create and activate a Python environment, then install dependencies:
 pip install -r requirements.txt
 ```
 
-If you use OpenAI-based generation, store your API key as an environment variable instead of hardcoding it.
+If you use OpenAI-based generation or evaluation, store your API key as an environment variable instead of hardcoding it.
 
 ### Windows CMD
 
@@ -110,7 +138,7 @@ The pipeline is organized into the following stages:
    Use prompt templates and an LLM to generate additional sentiment-labeled financial text from seed examples.
 
 3. **Teacher / reference model evaluation**  
-   Evaluate strong pretrained or API-based models such as FinBERT or GPT-based classifiers.
+   Evaluate strong pretrained or API-based models such as FinBERT or GPT-4o.
 
 4. **Student model training**  
    Train compact models such as DistilBERT, TinyBERT, and ModernBERT on:
@@ -130,47 +158,62 @@ efficient-financial-distillation/
 ├─ README.md
 ├─ LICENSE
 ├─ .gitignore
-├─ requirements.txt
-├─ prompts/
-│  ├─ template1.txt
-│  ├─ template2.txt
-│  └─ template3.txt
-├─ scripts/
-│  ├─ generation/
-│  │  ├─ generate_synthetic.py
-│  │  ├─ chatgpt4o_test_phrasebank.py
-│  │  └─ chatgpt4o_test_twitter_financial_news.py
-│  ├─ seed_selection/
-│  │  ├─ select_seeds.py
-│  │  ├─ visualize_seed_distances.py
-│  │  └─ visualize_randomseed_distances.py
-│  ├─ training/
-│  │  ├─ train.py
-│  │  └─ callbacks.py
-│  ├─ evaluation/
-│  │  ├─ evaluate.py
-│  │  ├─ plot_results.py
-│  │  └─ stat_tests.py
-│  └─ misc/
-├─ demo/
-│  └─ app.py
+├─ .ai/
+├─ appendix/
+├─ configs/
 ├─ data/
-│  ├─ raw/
-│  ├─ processed/
-│  └─ sample/
-├─ results/
-│  └─ .gitkeep
-└─ docs/
-   └─ appendix/
+├─ Demo/
+├─ docs/
+├─ literature/
+├─ Literature_review/
+├─ outputs/
+├─ prompts/
+├─ scripts/
+│  ├─ evaluation/
+│  │  ├─ FinBert_test.py
+│  │  ├─ mcnemar_twitter.py
+│  │  ├─ Plot_comparison.py
+│  │  ├─ test_phrasebank_modernBERT.py
+│  │  ├─ test_phrasebank_plot.py
+│  │  ├─ test_twitter_plot.py
+│  │  └─ test_twitterNews_modernBERT.py
+│  ├─ generation/
+│  │  ├─ chatgpt4o_eval.py
+│  │  └─ generate_synthetic.py
+│  ├─ misc/
+│  ├─ seed_selection/
+│  │  ├─ SaveRandomSeed_financial_phrasebank.py
+│  │  ├─ SaveRandomSeed_twitter-financial-news.py
+│  │  ├─ SaveSeed_financial_phrasebank.py
+│  │  ├─ SaveSeed_twitter-financial-news.py
+│  │  ├─ visualize_Randomseed_distances.py
+│  │  └─ visualize_seed_distances.py
+│  └─ training/
+│     ├─ DistilBERT_financial_phrasebank.py
+│     ├─ DistilBERT_synthetic_financial_phrasebank.py
+│     ├─ DistilBERT_synthetic_financial_phrasebank_randomSeed.py
+│     ├─ DistilBERT_synthetic_twitter-financial-news.py
+│     ├─ DistilBERT_synthetic_twitter-financial-news_randomSeed.py
+│     ├─ DistilBERT_twitter-financial-news.py
+│     ├─ ModernBERT_financial_phrasebank.py
+│     ├─ ModernBERT_synthetic_financial_phrasebank.py
+│     ├─ ModernBERT_synthetic_financial_phrasebank_randomSeed.py
+│     ├─ ModernBERT_synthetic_twitter-financial-news.py
+│     ├─ ModernBERT_synthetic_twitter-financial-news_randomSeed.py
+│     ├─ ModernBERT_twitter-financial-news.py
+│     ├─ TinyBERT_financial_phrasebank.py
+│     ├─ TinyBERT_synthetic_financial_phrasebank.py
+│     ├─ TinyBERT_synthetic_financial_phrasebank_randomSeed.py
+│     ├─ TinyBERT_synthetic_twitter-financial-news.py
+│     ├─ TinyBERT_synthetic_twitter-financial-news_randomSeed.py
+│     └─ TinyBERT_twitter-financial-news.py
 ```
 
 ---
 
 ## Notes
 
-This repository is being cleaned and refactored from experiment-specific research scripts into a more reproducible pipeline structure. Some legacy scripts may still exist temporarily during this process.
-
-If a command in this README does not exactly match your current filenames yet, keep the structure shown here as the target organization and rename your scripts gradually during cleanup.
+This repository currently contains both refactored scripts and legacy experiment-specific scripts. The main pipeline has begun to be reorganized into `generation`, `seed_selection`, `training`, and `evaluation`, but some older experiment files are still kept for reproducibility and comparison.
 
 ---
 
