@@ -4,6 +4,8 @@ Code for the LREC 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
 
+![method_pipeline.png](docs/method_pipeline.png)
+
 This repository contains code for a low-resource financial sentiment classification pipeline built around:
 
 - seed example selection
