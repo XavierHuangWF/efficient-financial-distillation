@@ -167,7 +167,6 @@ efficient-financial-distillation/
 ├─ Demo/
 ├─ docs/
 ├─ literature/
-├─ Literature_review/
 ├─ outputs/
 ├─ prompts/
 ├─ scripts/
