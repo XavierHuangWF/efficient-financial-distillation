@@ -4,7 +4,7 @@ Code for the LREC-COLING 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
 
-![method_pipeline.png](docs/method_pipeline.png)
+<img src="docs/method_pipeline.png" alt="Method pipeline" width="820"/>
 
 This repository contains code for a low-resource financial sentiment classification pipeline built around:
 
@@ -46,57 +46,57 @@ These results show that structured synthetic expansion can substantially improve
 
 ---
 
+## Relevance to broader research directions
+
+This repository focuses on financial sentiment classification, but its core methodology—representative seed selection, structured synthetic data generation, and compact model distillation—is relevant to broader low-resource and privacy-constrained AI settings. In particular, the workflow demonstrated here reflects transferable methods for language-based monitoring and decision-support tasks where labeled data are limited, efficient deployment matters, and reliable model behavior is important. These methodological components are relevant to broader research directions involving healthcare monitoring and critical infrastructure analytics.
+
+---
+
 ## Visual Results
 
 ### Seed coverage and selection strategy
 
 The figure below illustrates the difference between clustering-based seed selection and random sampling in the shared embedding space. Across negative, neutral, and positive classes, clustered seeds provide broader and more even coverage of the data distribution, which helps support more diverse synthetic generation and stronger downstream performance than random seed selection.
 
-![seed_selection_tsne.png](docs/seed_selection_tsne.png)
+<img src="docs/seed_selection_tsne.png" alt="Seed coverage and selection strategy" width="820"/>
 
 ### Financial PhraseBank benchmark comparison
 
 This figure summarizes the main performance story on the formal financial dataset. It compares the teacher model, full-data training, clustered-seed training, and clustered-seed-plus-synthetic training for ModernBERT. The comparison shows that clustered seeds already provide strong low-resource performance, while adding synthetic data narrows the gap to the teacher and approaches full-data training performance.
 
-![results_phrasebank_fixed.png](docs/results_phrasebank1.png)
+<img src="docs/results_phrasebank1.png" alt="Financial PhraseBank benchmark comparison" width="760"/>
 
 ### Twitter Financial News benchmark comparison
 
 This figure summarizes the corresponding benchmark story on the noisier Twitter financial dataset. It compares the same four settings for ModernBERT and shows that clustered-seed-plus-synthetic training substantially improves over clustered seeds alone and remains competitive on noisy financial text.
 
-![results_twitter_fixed.png](docs/results_twitter1.png)
+<img src="docs/results_twitter1.png" alt="Twitter Financial News benchmark comparison" width="760"/>
 
 ### Prompt ablation
 
 This figure summarizes the effect of removing individual prompt templates from the synthetic data pipeline. The combined prompt design performs best overall, and the drop after removing individual templates shows that each prompt contributes complementary value rather than serving as a redundant variation.
 
-![prompt_ablation_fixed.png](docs/prompt_ablation1.png)
+<img src="docs/prompt_ablation1.png" alt="Prompt ablation" width="760"/>
 
 ### Student model comparison
 
 These figures compare the best-performing student architectures under the clustered-seed-plus-synthetic setting. They highlight that ModernBERT is the strongest student model overall, while DistilBERT also remains competitive and TinyBERT provides a smaller, lighter baseline.
 
-![best_student_phrasebank_fixed.png](docs/best_student_phrasebank1.png)
+<img src="docs/best_student_phrasebank1.png" alt="Best student models on Financial PhraseBank" width="760"/>
 
-![best_student_twitter_fixed.png](docs/best_student_twitter1.png)
+<img src="docs/best_student_twitter1.png" alt="Best student models on Twitter Financial News" width="760"/>
 
 ### Overview: clustered seed selection
 
-This optional overview figure summarizes the difference between full-data training, few-shot random seed selection, and few-shot clustered seed selection across both datasets. It provides a compact visual summary of why clustered seeds are a stronger low-resource starting point than random seeds.
+This overview figure summarizes the difference between full-data training, few-shot random seed selection, and few-shot clustered seed selection across both datasets. It provides a compact visual summary of why clustered seeds are a stronger low-resource starting point than random seeds.
 
-![clustered_seed_selection_overview_fixed.png](docs/clustered_seed_selection_overview1.png)
+<img src="docs/clustered_seed_selection_overview1.png" alt="Clustered seed selection overview" width="760"/>
 
 ### Overview: synthetic data effect
 
-This optional overview figure summarizes the broader effect of synthetic expansion across both datasets, comparing the teacher, full-data training, clustered seeds alone, and clustered seeds plus synthetic data. It is useful as a high-level visual summary of the project’s main message.
+This overview figure summarizes the broader effect of synthetic expansion across both datasets, comparing the teacher, full-data training, clustered seeds alone, and clustered seeds plus synthetic data. It serves as a high-level visual summary of the project's main message.
 
-![synthetic_data_overview_fixed.png](docs/synthetic_data_overview1.png)
-
----
-
-## Relevance to broader research directions
-
-This repository focuses on financial sentiment classification, but its core methodology—representative seed selection, structured synthetic data generation, and compact model distillation—is relevant to broader low-resource and privacy-constrained AI settings. In particular, the workflow demonstrated here reflects transferable methods for language-based monitoring and decision-support tasks where labeled data are limited, efficient deployment matters, and reliable model behavior is important. These methodological components are relevant to broader research directions involving healthcare monitoring and critical infrastructure analytics.
+<img src="docs/synthetic_data_overview1.png" alt="Synthetic data effect overview" width="760"/>
 
 ---
 
@@ -302,16 +302,16 @@ efficient-financial-distillation/
 
 ## Reproducing the main README figures
 
-To keep the README visually informative without becoming cluttered, the main figures are:
+The figures used in this README are:
 
 1. `seed_selection_tsne.png`  
-   Best for showing why clustered seeds are more representative than random seeds.
+   Shows why clustered seeds are more representative than random seeds.
 
 2. `results_phrasebank_fixed.png`  
-   Best for summarizing the main benchmark story on the formal dataset.
+   Summarizes the main benchmark story on the formal dataset.
 
 3. `results_twitter_fixed.png`  
-   Best for showing the benchmark story on noisy financial text.
+   Summarizes the benchmark story on noisy financial text.
 
 4. `prompt_ablation_fixed.png`  
    Demonstrates that the prompt templates each contribute useful diversity.
@@ -320,10 +320,10 @@ To keep the README visually informative without becoming cluttered, the main fig
    Show the relative tradeoff among the compact student models once synthetic data are added.
 
 6. `clustered_seed_selection_overview_fixed.png`  
-   Optional overview chart summarizing the clustered-versus-random comparison across both datasets.
+   Overview chart summarizing the clustered-versus-random comparison across both datasets.
 
 7. `synthetic_data_overview_fixed.png`  
-   Optional overview chart summarizing the teacher/full/clustered/synthetic progression across both datasets.
+   Overview chart summarizing the teacher/full/clustered/synthetic progression across both datasets.
 
 ---
 
