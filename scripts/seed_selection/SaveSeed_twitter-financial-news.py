@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 SAMPLES_PER_CLASS = 35
 USE_CLASS_BALANCED_CLUSTERING = True
 SEED = 24266
-SAVE_PATH = "../outputs/seed_data.jsonl"
+SAVE_PATH = "../../outputs/seed_data.jsonl"
 
 def set_seed(seed=SEED):
     import random

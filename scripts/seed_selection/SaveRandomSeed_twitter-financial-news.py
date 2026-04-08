@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 SAMPLES_PER_CLASS = 35                # random samples per class
 USE_CLASS_BALANCED_SAMPLING = True    # if False, will draw a flat total of 105
 SEED = 24266  #24266 #26413 #36273
-SAVE_PATH = "../outputs/seed_data_twitter_random.jsonl"
+SAVE_PATH = "../../outputs/seed_data_twitter_random.jsonl"
 
 # In case the text column name varies
 TEXT_CANDIDATES = ["sentence", "text", "tweet", "content", "document", "message", "headline"]

@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 SAMPLES_PER_CLASS = 35          # random samples per class
 USE_CLASS_BALANCED_SAMPLING = True
 SEED = 24266 #24266 #26413 #36273
-SAVE_PATH = "../outputs/seed_data_random.jsonl"   # fixed typo: random
+SAVE_PATH = "../../outputs/seed_data_random.jsonl"   # fixed typo: random
 
 def set_seed(seed=SEED):
     import random
