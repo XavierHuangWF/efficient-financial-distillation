@@ -167,47 +167,41 @@ efficient-financial-distillation/
 ├─ README.md
 ├─ LICENSE
 ├─ .gitignore
-├─ data/
-│  ├─ interim/
-│  ├─ processed/
-│  └─ raw/
 ├─ Demo/
 │  └─ app.py
 ├─ docs/
 ├─ literature/
 ├─ outputs/
-│  └─ .gitkeep
 ├─ prompts/
-│  ├─ .gitkeep
 │  ├─ template1.txt
 │  ├─ template2.txt
 │  └─ template3.txt
-├─ scripts/
-│  ├─ evaluation/
-│  │  ├─ FinBert_test.py
-│  │  ├─ mcnemar_twitter.py
-│  │  ├─ Plot_comparison.py
-│  │  ├─ test_phrasebank_modernBERT.py
-│  │  ├─ test_phrasebank_plot.py
-│  │  ├─ test_twitter_plot.py
-│  │  └─ test_twitterNews_modernBERT.py
-│  ├─ generation/
-│  │  ├─ chatgpt4o_eval.py.py
-│  │  └─ generate_synthetic.py
-│  ├─ seed_selection/
-│  │  ├─ SavedandomSeed_twitter-financial-news.py
-│  │  ├─ SaveRandomSeed_financial_phrasebank.py
-│  │  ├─ SaveSeed_financial_phrasebank.py
-│  │  ├─ SaveSeed_twitter-financial-news.py
-│  │  ├─ visualize_Randomseed_distances.py
-│  │  └─ visualize_seed_distances.py
-│  └─ training/
-│     ├─ Distilbert_phrasebank_trainer.py
-│     ├─ Distilbert_twitter_trainer.py
-│     ├─ Modernbert_phrasebank_trainer.py
-│     ├─ Modernbert_twitter_trainer.py
-│     ├─ Tinybert_phrasebank_trainer.py
-│     └─ Tinybert_twitter_trainer.py
+└─ scripts/
+   ├─ evaluation/
+   │  ├─ FinBert_test.py
+   │  ├─ mcnemar_twitter.py
+   │  ├─ Plot_comparison.py
+   │  ├─ test_phrasebank_modernBERT.py
+   │  ├─ test_phrasebank_plot.py
+   │  ├─ test_twitter_plot.py
+   │  └─ test_twitterNews_modernBERT.py
+   ├─ generation/
+   │  ├─ chatgpt4o_eval.py.py
+   │  └─ generate_synthetic.py
+   ├─ seed_selection/
+   │  ├─ SavedandomSeed_twitter-financial-news.py
+   │  ├─ SaveRandomSeed_financial_phrasebank.py
+   │  ├─ SaveSeed_financial_phrasebank.py
+   │  ├─ SaveSeed_twitter-financial-news.py
+   │  ├─ visualize_Randomseed_distances.py
+   │  └─ visualize_seed_distances.py
+   └─ training/
+      ├─ Distilbert_phrasebank_trainer.py
+      ├─ Distilbert_twitter_trainer.py
+      ├─ Modernbert_phrasebank_trainer.py
+      ├─ Modernbert_twitter_trainer.py
+      ├─ Tinybert_phrasebank_trainer.py
+      └─ Tinybert_twitter_trainer.py
 ```
 
 ---
