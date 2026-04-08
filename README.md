@@ -18,6 +18,26 @@ The project studies whether carefully selected seed examples and LLM-generated s
 
 ---
 
+## Why this problem matters
+
+Financial sentiment analysis is useful for market monitoring and decision-support, but high-quality labeled data are often limited. In practice, financial text may be confidential, and reliable annotation often requires domain expertise, which makes large-scale labeling expensive and slow. At the same time, large instruction-following models can perform strongly on language tasks, but their computational demands, latency, and deployment cost make them difficult to rely on in resource-sensitive settings.
+
+This repository studies a practical alternative: whether a small number of carefully selected labeled examples can be expanded into an effective training signal for compact student models. The goal is not only strong benchmark performance, but also a more practical route to domain adaptation when labeled data are scarce.
+
+## Why data-efficient distillation matters
+
+The core idea in this repository is to reduce dependence on large fully labeled datasets by combining representative seed selection, structured synthetic data generation, and compact model training. Instead of requiring extensive manual annotation, the pipeline starts from a small seed set, expands coverage through prompting, and transfers useful task behavior to smaller student models such as DistilBERT, TinyBERT, and ModernBERT.
+
+This makes the approach relevant to settings where labeled data are expensive, sensitive, or difficult to share. In such cases, a compact task-specific model may be more practical than repeated dependence on a large general-purpose model, especially when efficient deployment, controlled adaptation, and reproducible evaluation matter.
+
+## Broader methodological relevance
+
+Although the experiments in this repository focus on financial sentiment classification, the methodology is relevant to broader low-resource and privacy-constrained AI settings. In particular, representative seed selection, synthetic data expansion, and compact task-specific distillation are useful patterns for language-based monitoring and decision-support workflows where labeled data are limited and reliable deployment matters.
+
+For example, similar constraints arise in settings involving privacy-sensitive financial text, clinical language, patient-reported feedback, and other high-stakes data environments where direct large-scale annotation may be costly, restricted, or operationally impractical. In that sense, this repository demonstrates a transferable methodology rather than only a single benchmark result.
+
+---
+
 ## Key Results
 
 - On **Financial PhraseBank**, ModernBERT trained with **clustered seeds + synthetic data** achieved **95.15% accuracy / 94.63 macro-F1**, remaining within approximately **2.2 points** of the GPT-4o teacher while using a small fraction of the original human-labeled data.
@@ -43,12 +63,6 @@ The repository includes experiments on two financial sentiment datasets: one for
 | Twitter Financial News Sentiment | GPT-4o teacher (zero-shot) | GPT-4o | 72.78 | 71.45 |
 
 These results show that structured synthetic expansion can substantially improve compact student models in low-resource settings, and that semantically representative seed selection matters.
-
----
-
-## Relevance to broader research directions
-
-This repository focuses on financial sentiment classification, but its core methodology—representative seed selection, structured synthetic data generation, and compact model distillation—is relevant to broader low-resource and privacy-constrained AI settings. In particular, the workflow demonstrated here reflects transferable methods for language-based monitoring and decision-support tasks where labeled data are limited, efficient deployment matters, and reliable model behavior is important. These methodological components are relevant to broader research directions involving healthcare monitoring and critical infrastructure analytics.
 
 ---
 
@@ -257,13 +271,13 @@ efficient-financial-distillation/
 ├─ docs/
 │  ├─ method_pipeline.png
 │  ├─ seed_selection_tsne.png
-│  ├─ results_phrasebank_fixed.png
-│  ├─ results_twitter_fixed.png
-│  ├─ prompt_ablation_fixed.png
-│  ├─ best_student_phrasebank_fixed.png
-│  ├─ best_student_twitter_fixed.png
-│  ├─ clustered_seed_selection_overview_fixed.png
-│  └─ synthetic_data_overview_fixed.png
+│  ├─ results_phrasebank1.png
+│  ├─ results_twitter1.png
+│  ├─ prompt_ablation1.png
+│  ├─ best_student_phrasebank1.png
+│  ├─ best_student_twitter1.png
+│  ├─ clustered_seed_selection_overview1.png
+│  └─ synthetic_data_overview1.png
 ├─ literature/
 ├─ outputs/
 ├─ prompts/
@@ -307,22 +321,22 @@ The figures used in this README are:
 1. `seed_selection_tsne.png`  
    Shows why clustered seeds are more representative than random seeds.
 
-2. `results_phrasebank_fixed.png`  
+2. `results_phrasebank1.png`  
    Summarizes the main benchmark story on the formal dataset.
 
-3. `results_twitter_fixed.png`  
+3. `results_twitter1.png`  
    Summarizes the benchmark story on noisy financial text.
 
-4. `prompt_ablation_fixed.png`  
+4. `prompt_ablation1.png`  
    Demonstrates that the prompt templates each contribute useful diversity.
 
-5. `best_student_phrasebank_fixed.png` and `best_student_twitter_fixed.png`  
+5. `best_student_phrasebank1.png` and `best_student_twitter1.png`  
    Show the relative tradeoff among the compact student models once synthetic data are added.
 
-6. `clustered_seed_selection_overview_fixed.png`  
+6. `clustered_seed_selection_overview1.png`  
    Overview chart summarizing the clustered-versus-random comparison across both datasets.
 
-7. `synthetic_data_overview_fixed.png`  
+7. `synthetic_data_overview1.png`  
    Overview chart summarizing the teacher/full/clustered/synthetic progression across both datasets.
 
 ---
