@@ -4,6 +4,8 @@ Code for the LREC 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
 
+![method_pipeline.png](docs/method_pipeline.png)
+
 This repository contains code for a low-resource financial sentiment classification pipeline built around:
 
 - seed example selection
@@ -22,9 +24,31 @@ Although the experiments in this repository focus on financial sentiment analysi
 
 ---
 
-## How to run
+## Workflow overview
 
-Below are example commands for the main pipeline stages.
+The workflow implemented in this repository follows the pipeline shown above:
+
+1. **Embedding-based clustering for seed selection**  
+   Select representative examples from the original dataset using clustering-based or random seed selection.
+
+2. **Teacher prompting and synthetic generation**  
+   Use prompt templates and teacher models to generate additional labeled financial text from the selected seeds.
+
+3. **Data ingestion and cleaning**  
+   Normalize text, clean labels, merge seed and synthetic data when needed, and prepare train/validation/test splits.
+
+4. **Tokenization**  
+   Convert text into model-ready inputs for compact student models.
+
+5. **Student training and distillation**  
+   Train compact models such as DistilBERT, TinyBERT, and ModernBERT under full-data, seed-only, or synthetic-plus-seed settings.
+
+6. **Evaluation**  
+   Compare models and settings using test metrics, plots, and statistical comparison scripts.
+
+---
+
+## Quick start
 
 ### 1. Synthetic data generation
 
@@ -58,7 +82,7 @@ python scripts/seed_selection/visualize_Randomseed_distances.py
 
 ### 5. Student model training
 
-PhraseBank:
+PhraseBank examples:
 
 ```bash
 python scripts/training/Distilbert_phrasebank_trainer.py --mode full
@@ -66,7 +90,7 @@ python scripts/training/Modernbert_phrasebank_trainer.py --mode full
 python scripts/training/Tinybert_phrasebank_trainer.py --mode full
 ```
 
-Twitter Financial News:
+Twitter Financial News examples:
 
 ```bash
 python scripts/training/Distilbert_twitter_trainer.py --mode full
@@ -74,11 +98,13 @@ python scripts/training/Modernbert_twitter_trainer.py --mode full
 python scripts/training/Tinybert_twitter_trainer.py --mode full
 ```
 
-Examples with synthetic + seed data:
+Synthetic + seed examples:
 
 ```bash
 python scripts/training/Distilbert_phrasebank_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
+
 python scripts/training/Modernbert_twitter_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
+
 python scripts/training/Tinybert_twitter_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
 ```
 
@@ -98,10 +124,10 @@ python scripts/evaluation/mcnemar_twitter.py
 
 ## Installation
 
-Create and activate a Python environment, then install dependencies:
+Create and activate a Python environment, then install the packages used by the current scripts:
 
 ```bash
-pip install -r requirements.txt
+pip install torch transformers datasets evaluate sentence-transformers scikit-learn pandas numpy matplotlib openai tqdm
 ```
 
 If you use OpenAI-based generation or evaluation, store your API key as an environment variable instead of hardcoding it.
@@ -135,31 +161,6 @@ This repository currently focuses on two financial sentiment datasets:
 
 ---
 
-## Method overview
-
-The pipeline is organized into the following stages:
-
-1. **Seed selection**  
-   Select representative seed examples using clustering-based sampling or random sampling.
-
-2. **Synthetic data generation**  
-   Use prompt templates and an LLM to generate additional sentiment-labeled financial text from seed examples.
-
-3. **Teacher / reference model evaluation**  
-   Evaluate strong pretrained or API-based models such as FinBERT or GPT-4o.
-
-4. **Student model training**  
-   Train compact models such as DistilBERT, TinyBERT, and ModernBERT on:
-   - full supervised data
-   - real seed data only
-   - synthetic + seed merged data
-   - standard-seed and random-seed variants
-
-5. **Evaluation and comparison**  
-   Compare performance across datasets, model families, and settings using metrics, plots, and statistical tests.
-
----
-
 ## Repository structure
 
 ```text
@@ -170,6 +171,7 @@ efficient-financial-distillation/
 ├─ Demo/
 │  └─ app.py
 ├─ docs/
+│  └─ method_pipeline.png
 ├─ literature/
 ├─ outputs/
 ├─ prompts/
@@ -208,7 +210,7 @@ efficient-financial-distillation/
 
 ## Notes
 
-This repository currently contains a cleaner training structure than before. The main model training code has been consolidated into six trainer scripts:
+This repository now uses a cleaner training structure than the earlier experiment-specific layout. The main training code has been consolidated into six trainer scripts:
 
 - DistilBERT PhraseBank
 - DistilBERT Twitter
@@ -218,6 +220,8 @@ This repository currently contains a cleaner training structure than before. The
 - TinyBERT Twitter
 
 Legacy evaluation, seed-selection, and plotting scripts are still kept as separate files for reproducibility and comparison.
+
+Some filenames in the current repository still reflect legacy naming, and the commands above intentionally match the current filenames exactly.
 
 ---
 
