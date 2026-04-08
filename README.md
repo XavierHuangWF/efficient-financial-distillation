@@ -4,8 +4,6 @@ Code for the LREC 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
 
-![method_pipeline.png](docs/method_pipeline.png)
-
 This repository contains code for a low-resource financial sentiment classification pipeline built around:
 
 - seed example selection
@@ -38,8 +36,8 @@ python scripts/generation/generate_synthetic.py --dataset twitter
 ### 2. GPT-4o evaluation
 
 ```bash
-python scripts/generation/chatgpt4o_eval.py --dataset phrasebank
-python scripts/generation/chatgpt4o_eval.py --dataset twitter
+python scripts/generation/chatgpt4o_eval.py.py --dataset phrasebank
+python scripts/generation/chatgpt4o_eval.py.py --dataset twitter
 ```
 
 ### 3. Seed selection
@@ -48,7 +46,7 @@ python scripts/generation/chatgpt4o_eval.py --dataset twitter
 python scripts/seed_selection/SaveSeed_financial_phrasebank.py
 python scripts/seed_selection/SaveRandomSeed_financial_phrasebank.py
 python scripts/seed_selection/SaveSeed_twitter-financial-news.py
-python scripts/seed_selection/SaveRandomSeed_twitter-financial-news.py
+python scripts/seed_selection/SavedandomSeed_twitter-financial-news.py
 ```
 
 ### 4. Seed distance visualization
@@ -60,23 +58,31 @@ python scripts/seed_selection/visualize_Randomseed_distances.py
 
 ### 5. Student model training
 
-Examples:
+PhraseBank:
 
 ```bash
-python scripts/training/DistilBERT_financial_phrasebank.py
-python scripts/training/TinyBERT_financial_phrasebank.py
-python scripts/training/ModernBERT_financial_phrasebank.py
-
-python scripts/training/DistilBERT_twitter-financial-news.py
-python scripts/training/TinyBERT_twitter-financial-news.py
-python scripts/training/ModernBERT_twitter-financial-news.py
+python scripts/training/Distilbert_phrasebank_trainer.py --mode full
+python scripts/training/Modernbert_phrasebank_trainer.py --mode full
+python scripts/training/Tinybert_phrasebank_trainer.py --mode full
 ```
 
-Synthetic-data variants are also included in `scripts/training/`.
+Twitter Financial News:
+
+```bash
+python scripts/training/Distilbert_twitter_trainer.py --mode full
+python scripts/training/Modernbert_twitter_trainer.py --mode full
+python scripts/training/Tinybert_twitter_trainer.py --mode full
+```
+
+Examples with synthetic + seed data:
+
+```bash
+python scripts/training/Distilbert_phrasebank_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
+python scripts/training/Modernbert_twitter_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
+python scripts/training/Tinybert_twitter_trainer.py --mode synthetic --seed-source jsonl --seed-jsonl ../outputs/seed_data.jsonl --synthetic-jsonl ../outputs/synthetic_data_from_Seed.jsonl --use-early-stopping
+```
 
 ### 6. Evaluation and comparison
-
-Examples:
 
 ```bash
 python scripts/evaluation/FinBert_test.py
@@ -144,9 +150,10 @@ The pipeline is organized into the following stages:
 
 4. **Student model training**  
    Train compact models such as DistilBERT, TinyBERT, and ModernBERT on:
+   - full supervised data
    - real seed data only
-   - synthetic-augmented data
-   - clustered-seed and random-seed variants
+   - synthetic + seed merged data
+   - standard-seed and random-seed variants
 
 5. **Evaluation and comparison**  
    Compare performance across datasets, model families, and settings using metrics, plots, and statistical tests.
@@ -160,15 +167,21 @@ efficient-financial-distillation/
 ├─ README.md
 ├─ LICENSE
 ├─ .gitignore
-├─ .ai/
-├─ appendix/
-├─ configs/
 ├─ data/
+│  ├─ interim/
+│  ├─ processed/
+│  └─ raw/
 ├─ Demo/
+│  └─ app.py
 ├─ docs/
 ├─ literature/
 ├─ outputs/
+│  └─ .gitkeep
 ├─ prompts/
+│  ├─ .gitkeep
+│  ├─ template1.txt
+│  ├─ template2.txt
+│  └─ template3.txt
 ├─ scripts/
 │  ├─ evaluation/
 │  │  ├─ FinBert_test.py
@@ -179,42 +192,38 @@ efficient-financial-distillation/
 │  │  ├─ test_twitter_plot.py
 │  │  └─ test_twitterNews_modernBERT.py
 │  ├─ generation/
-│  │  ├─ chatgpt4o_eval.py
+│  │  ├─ chatgpt4o_eval.py.py
 │  │  └─ generate_synthetic.py
-│  ├─ misc/
 │  ├─ seed_selection/
+│  │  ├─ SavedandomSeed_twitter-financial-news.py
 │  │  ├─ SaveRandomSeed_financial_phrasebank.py
-│  │  ├─ SaveRandomSeed_twitter-financial-news.py
 │  │  ├─ SaveSeed_financial_phrasebank.py
 │  │  ├─ SaveSeed_twitter-financial-news.py
 │  │  ├─ visualize_Randomseed_distances.py
 │  │  └─ visualize_seed_distances.py
 │  └─ training/
-│     ├─ DistilBERT_financial_phrasebank.py
-│     ├─ DistilBERT_synthetic_financial_phrasebank.py
-│     ├─ DistilBERT_synthetic_financial_phrasebank_randomSeed.py
-│     ├─ DistilBERT_synthetic_twitter-financial-news.py
-│     ├─ DistilBERT_synthetic_twitter-financial-news_randomSeed.py
-│     ├─ DistilBERT_twitter-financial-news.py
-│     ├─ ModernBERT_financial_phrasebank.py
-│     ├─ ModernBERT_synthetic_financial_phrasebank.py
-│     ├─ ModernBERT_synthetic_financial_phrasebank_randomSeed.py
-│     ├─ ModernBERT_synthetic_twitter-financial-news.py
-│     ├─ ModernBERT_synthetic_twitter-financial-news_randomSeed.py
-│     ├─ ModernBERT_twitter-financial-news.py
-│     ├─ TinyBERT_financial_phrasebank.py
-│     ├─ TinyBERT_synthetic_financial_phrasebank.py
-│     ├─ TinyBERT_synthetic_financial_phrasebank_randomSeed.py
-│     ├─ TinyBERT_synthetic_twitter-financial-news.py
-│     ├─ TinyBERT_synthetic_twitter-financial-news_randomSeed.py
-│     └─ TinyBERT_twitter-financial-news.py
+│     ├─ Distilbert_phrasebank_trainer.py
+│     ├─ Distilbert_twitter_trainer.py
+│     ├─ Modernbert_phrasebank_trainer.py
+│     ├─ Modernbert_twitter_trainer.py
+│     ├─ Tinybert_phrasebank_trainer.py
+│     └─ Tinybert_twitter_trainer.py
 ```
 
 ---
 
 ## Notes
 
-This repository currently contains both refactored scripts and legacy experiment-specific scripts. The main pipeline has begun to be reorganized into `generation`, `seed_selection`, `training`, and `evaluation`, but some older experiment files are still kept for reproducibility and comparison.
+This repository currently contains a cleaner training structure than before. The main model training code has been consolidated into six trainer scripts:
+
+- DistilBERT PhraseBank
+- DistilBERT Twitter
+- ModernBERT PhraseBank
+- ModernBERT Twitter
+- TinyBERT PhraseBank
+- TinyBERT Twitter
+
+Legacy evaluation, seed-selection, and plotting scripts are still kept as separate files for reproducibility and comparison.
 
 ---
 
