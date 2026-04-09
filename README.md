@@ -150,8 +150,8 @@ python scripts/generation/generate_synthetic.py --dataset twitter
 ### 2. GPT-4o evaluation
 
 ```bash
-python scripts/generation/chatgpt4o_eval.py.py --dataset phrasebank
-python scripts/generation/chatgpt4o_eval.py.py --dataset twitter
+python scripts/generation/chatgpt4o_eval.py --dataset phrasebank
+python scripts/generation/chatgpt4o_eval.py --dataset twitter
 ```
 
 ### 3. Seed selection
@@ -294,7 +294,7 @@ efficient-financial-distillation/
    │  ├─ test_twitter_plot.py
    │  └─ test_twitterNews_modernBERT.py
    ├─ generation/
-   │  ├─ chatgpt4o_eval.py.py
+   │  ├─ chatgpt4o_eval.py
    │  └─ generate_synthetic.py
    ├─ seed_selection/
    │  ├─ SavedandomSeed_twitter-financial-news.py
