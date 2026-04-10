@@ -1,49 +1,63 @@
 # efficient-financial-distillation
 
-Code for the LREC-COLING 2026 paper:
+Code for the LREC 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
 
 <img src="docs/method_pipeline.png" alt="Method pipeline" width="820"/>
 
-This repository contains code for a low-resource financial sentiment classification pipeline built around:
+This repository contains code for a reproducible, low-resource financial sentiment classification pipeline built around:
 
-- seed example selection
-- synthetic data generation with prompt templates
+- embedding-based seed selection
+- structured synthetic data generation with prompt templates
 - teacher-model evaluation
 - compact student-model training
 - result analysis and visualization
 
-The project studies whether carefully selected seed examples and LLM-generated synthetic data can improve compact student models on financial sentiment tasks under limited real-data settings.
+The project studies whether a small number of carefully selected real examples, expanded through structured prompting of a large teacher model, can transfer useful task knowledge to compact student models under limited-data conditions.
 
 ---
 
 ## Why this problem matters
 
-Financial sentiment analysis is useful for market monitoring and decision-support, but high-quality labeled data are often limited. In practice, financial text may be confidential, and reliable annotation often requires domain expertise, which makes large-scale labeling expensive and slow. At the same time, large instruction-following models can perform strongly on language tasks, but their computational demands, latency, and deployment cost make them difficult to rely on in resource-sensitive settings.
+Financial sentiment analysis is useful for market monitoring and decision-support, but high-quality labelled data are often limited by confidentiality, domain expertise requirements, and annotation cost. In many realistic settings, direct large-scale human labelling is expensive, slow, or operationally difficult. At the same time, large instruction-following models can perform strongly on language tasks, but their computational demands, latency, and deployment cost make them harder to rely on in resource-sensitive settings.
 
-This repository studies a practical alternative: whether a small number of carefully selected labeled examples can be expanded into an effective training signal for compact student models. The goal is not only strong benchmark performance, but also a more practical route to domain adaptation when labeled data are scarce.
+This repository studies a practical alternative: whether a small number of representative labelled examples can be expanded into an effective training signal for compact task-specific models. The goal is not only strong benchmark performance, but also a more practical route to domain adaptation when labelled data are scarce, sensitive, or costly to curate.
 
 ## Why data-efficient distillation matters
 
-The core idea in this repository is to reduce dependence on large fully labeled datasets by combining representative seed selection, structured synthetic data generation, and compact model training. Instead of requiring extensive manual annotation, the pipeline starts from a small seed set, expands coverage through prompting, and transfers useful task behavior to smaller student models such as DistilBERT, TinyBERT, and ModernBERT.
+The core idea in this repository is to reduce dependence on large fully labelled datasets by combining representative seed selection, structured synthetic data generation, and compact model training. Instead of requiring extensive manual annotation, the pipeline starts from a small seed set, expands coverage through prompting, and transfers useful task behaviour to smaller student models such as DistilBERT, TinyBERT, and ModernBERT.
 
-This makes the approach relevant to settings where labeled data are expensive, sensitive, or difficult to share. In such cases, a compact task-specific model may be more practical than repeated dependence on a large general-purpose model, especially when efficient deployment, controlled adaptation, and reproducible evaluation matter.
+This makes the approach relevant to settings where labelled data are expensive, privacy-constrained, or difficult to share. In such cases, a compact task-specific model may be more practical than repeated dependence on a large general-purpose model, especially when efficient deployment, controlled adaptation, and reproducible evaluation matter.
 
-## Broader methodological relevance
+## Relevance to broader research directions
 
-Although the experiments in this repository focus on financial sentiment classification, the methodology is relevant to broader low-resource and privacy-constrained AI settings. In particular, representative seed selection, synthetic data expansion, and compact task-specific distillation are useful patterns for language-based monitoring and decision-support workflows where labeled data are limited and reliable deployment matters.
+Although the experiments in this repository focus on financial sentiment classification, the methodology is relevant to broader low-resource and privacy-constrained AI settings. The central pattern developed here—representative seed selection, structured synthetic expansion, and compact student distillation—is transferable to language-based monitoring and decision-support workflows where labelled data are limited and reliable deployment matters.
 
-For example, similar constraints arise in settings involving privacy-sensitive financial text, clinical language, patient-reported feedback, and other high-stakes data environments where direct large-scale annotation may be costly, restricted, or operationally impractical. In that sense, this repository demonstrates a transferable methodology rather than only a single benchmark result.
+This is especially relevant for environments where data access is restricted, annotation is expensive, and robust model behaviour matters more than simply scaling model size. Similar constraints arise in privacy-sensitive financial text, clinical language, patient-reported feedback, incident reports, maintenance logs, and other high-stakes settings where direct large-scale annotation may be costly or operationally impractical. In that sense, this repository demonstrates a transferable methodology for data-efficient AI adaptation rather than only a single benchmark result.
+
+## Evidence from the paper
+
+The accompanying paper provides direct evidence that this low-resource pipeline can recover strong performance with very limited human-labelled input:
+
+- The framework is explicitly designed for **low-resource conditions**, starting from only **12 to 105 human-labelled seed sentences**.
+- On **Financial PhraseBank**, ModernBERT trained with **105 clustered seeds + synthetic data** achieved **95.15% accuracy / 94.63 macro-F1**, while using **under 6% of the original human-annotated data**.
+- On the same dataset, this low-resource synthetic setting came within approximately **2.2 points** of the **GPT-4o zero-shot teacher** and also approached the performance of the **full-data ModernBERT** baseline.
+- On **Twitter Financial News Sentiment**, ModernBERT trained on **clustered seeds + synthetic data** achieved **77.14% accuracy / 71.14 macro-F1**, surpassing the **GPT-4o zero-shot teacher** on accuracy in the noisier domain.
+- The paper further reports that this Twitter improvement over the teacher is **statistically significant** under McNemar's test (**p = 0.0087**).
+- Across both datasets, **clustering-based seed selection** consistently outperformed random selection, showing that representative data selection materially improves low-resource synthetic expansion.
+
+These results support the broader claim that compact, task-specific models can become highly competitive when trained through carefully designed data-efficient distillation pipelines, without requiring large manually labelled corpora.
 
 ---
 
 ## Key Results
 
-- On **Financial PhraseBank**, ModernBERT trained with **clustered seeds + synthetic data** achieved **95.15% accuracy / 94.63 macro-F1**, remaining within approximately **2.2 points** of the GPT-4o teacher while using a small fraction of the original human-labeled data.
-- On **Twitter Financial News Sentiment**, the same setting achieved **77.14% accuracy / 71.14 macro-F1**, showing that synthetic expansion substantially improves the student model on this noisier domain.
-- **Clustering-based seed selection** consistently outperformed random seed selection in low-resource settings.
-- Prompt ablation showed that each template contributed useful diversity, with the largest performance drop observed when the multi-seed prompt was removed.
+- On **Financial PhraseBank**, ModernBERT trained with **clustered seeds + synthetic data** achieved **95.15% accuracy / 94.63 macro-F1**, approaching both the **full-data ModernBERT** result (**96.48 / 95.78**) and the **GPT-4o zero-shot teacher** (**97.35 / 97.57**) while using **under 6% of the original human-annotated data**.
+- On **Twitter Financial News Sentiment**, the same low-resource setting achieved **77.14% accuracy / 71.14 macro-F1**, outperforming the **GPT-4o zero-shot teacher** on accuracy (**72.78%**) and remaining competitive on macro-F1 in a noisier domain.
+- **Clustering-based seed selection** consistently outperformed random seed selection in low-resource settings, demonstrating that semantic representativeness matters.
+- Prompt ablation showed that each template contributed useful diversity, with the largest performance drop observed when the **multi-seed template** was removed.
+- The overall findings show that structured synthetic expansion can substantially improve compact student models under limited-data conditions, making low-resource adaptation more practical and reproducible.
 
 ---
 
@@ -82,7 +96,7 @@ This figure summarizes the main performance story on the formal financial datase
 
 ### Twitter Financial News benchmark comparison
 
-This figure summarizes the corresponding benchmark story on the noisier Twitter financial dataset. It compares the same four settings for ModernBERT and shows that clustered-seed-plus-synthetic training substantially improves over clustered seeds alone and remains competitive on noisy financial text.
+This figure summarizes the corresponding benchmark story on the noisier Twitter financial dataset. It compares the same four settings for ModernBERT and shows that clustered-seed-plus-synthetic training substantially improves over clustered seeds alone, surpasses the zero-shot teacher on accuracy, and remains competitive on noisy financial text.
 
 <img src="docs/results_twitter1.png" alt="Twitter Financial News benchmark comparison" width="760"/>
 
@@ -122,7 +136,7 @@ The workflow implemented in this repository follows the pipeline shown above:
    Select representative examples from the original dataset using clustering-based or random seed selection.
 
 2. **Teacher prompting and synthetic generation**  
-   Use prompt templates and teacher models to generate additional labeled financial text from the selected seeds.
+   Use prompt templates and teacher models to generate additional labelled financial text from the selected seeds.
 
 3. **Data ingestion and cleaning**  
    Normalize text, clean labels, merge seed and synthetic data when needed, and prepare train/validation/test splits.
@@ -341,6 +355,20 @@ The figures used in this README are:
 
 ---
 
+## Why this repository is useful beyond one benchmark
+
+This repository documents an end-to-end workflow for data-efficient adaptation of compact language models under limited supervision. Beyond the specific benchmark scores, it demonstrates a practical recipe for:
+
+- selecting representative seeds instead of relying on large labelled corpora
+- using structured prompting to expand task coverage under supervision constraints
+- transferring useful task behaviour from a large teacher to smaller deployable students
+- evaluating when compact task-specific models can approach or even exceed large generalist models on domain data
+- building reproducible low-resource NLP pipelines that can be adapted to other privacy-constrained or high-stakes settings
+
+That combination of methodological efficiency, reproducibility, and domain adaptation is the main contribution of the work.
+
+---
+
 ## Notes
 
 This repository now uses a cleaner training structure than the earlier experiment-specific layout. The main training code has been consolidated into six trainer scripts:
@@ -361,6 +389,8 @@ Some filenames in the current repository still reflect legacy naming, and the co
 ## Limitations
 
 While the reported results are strong, this repository reflects a specific experimental setting. Performance can vary with prompt design, seed representativeness, and dataset characteristics. The current experiments focus on English financial sentiment classification and should not be overgeneralized to other domains without additional validation.
+
+The paper argues that the framework is more practical for resource-sensitive deployment than repeated direct dependence on a large teacher model, but it does not report direct compute benchmarks such as GPU-hours, latency, or dollar-cost comparisons. Accordingly, claims about efficiency in this repository are grounded in compact-model design, reduced labelling requirements, and strong low-resource empirical performance rather than explicit infrastructure cost measurements.
 
 ---
 
