@@ -1,5 +1,8 @@
 # efficient-financial-distillation
 
+Online Demo:
+https://huggingface.co/spaces/XavierWHHuang/LREC_demo
+
 Code for the LREC 2026 paper:
 
 **Efficient Financial Language Understanding via Distillation with Synthetic Data**
